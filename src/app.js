@@ -15,8 +15,11 @@ const app = express();
 /* REST CONFIG */
 app.set('view engine', 'ejs');
 app.set('trust proxy', true);
-app.use(express.urlencoded({ extended: false, parameterLimit: 100000, limit: '100mb' }));
-app.use(express.json({ extended: false, parameterLimit: 100000, limit: '100mb' }));
+
+// Se corrigió esto para evitar recibir JSON de tamaños grandes y evitar problemas de rendimiento.
+app.use(express.urlencoded({ extended: false, }));
+app.use(express.json());
+
 app.use(compression());
 app.use(morgan('[:worker] :remote-addr (:user-agent) :host - :method :url HTTP/:http-version :status - :res[content-length] bytes - :response-time[0] ms'));
 /* REST CONFIG */
