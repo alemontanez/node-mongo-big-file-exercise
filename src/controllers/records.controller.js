@@ -1,4 +1,4 @@
-const Records = require('./records.model');
+const Records = require('../models/records.model');
 
 const upload = async (req, res) => {
     const {file} = req;
