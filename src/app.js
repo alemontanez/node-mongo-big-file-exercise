@@ -15,7 +15,7 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('trust proxy', true);
 
-// Se corrigió esto para evitar recibir JSON de tamaños grandes y evitar problemas de rendimiento.
+// Se cambió esto para evitar recibir JSON de tamaños grandes y evitar problemas de rendimiento.
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 

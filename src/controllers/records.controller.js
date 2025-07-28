@@ -1,11 +1,23 @@
 const Records = require('../models/records.model');
+const { processCsvFile } = require('../services/records.service');
 
 const upload = async (req, res) => {
   const { file } = req;
-
-  /* Acá va tu código! Recordá que podés acceder al archivo desde la constante file */
-
-  return res.status(200).json({ message: 'some response' });
+  if (!file) {
+    return res.status(400).json({ message: 'No se proporcionó ningún archivo.' });
+  }
+  try {
+    const { readCount, insertedCount } = await processCsvFile(file.path);
+    return res.status(200).json({
+      message: 'El archivo se procesó correctamente.',
+      readCount,
+      insertedCount,
+      repeatedCount: readCount - insertedCount,
+    });
+  } catch (error) {
+    console.error('Error en el controlador upload:', error);
+    return res.status(500).json({ message: 'Ha ocurrido un error en el servidor al procesar el archivo.' });
+  }
 };
 
 const list = async (_, res) => {
