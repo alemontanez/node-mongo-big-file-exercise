@@ -2,7 +2,7 @@
 const compression = require('compression');
 const morgan = require('morgan');
 const express = require('express');
-const route = require('./routes/records.routes');
+const recordRoutes = require('./routes/records.routes');
 const connectToDatabase = require('./config/database');
 const { PORT } = require('./config/env');
 
@@ -19,15 +19,16 @@ app.set('trust proxy', true);
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// Comprime las respuestas para mejorar rendimiento
 app.use(compression());
 app.use(morgan('[:worker] :remote-addr (:user-agent) :host - :method :url HTTP/:http-version :status - :res[content-length] bytes - :response-time[0] ms'));
 /* REST CONFIG */
 
 /* ROUTES */
-app.use('/', route);
+app.use('/', recordRoutes);
 /* ROUTES */
 
-/* START SERVER */
+// Inicializa conexión a la base de datos y levanta el servidor
 (async () => {
   try {
     await connectToDatabase();
@@ -37,4 +38,3 @@ app.use('/', route);
     process.exit(1);
   }
 })();
-/* START SERVER */

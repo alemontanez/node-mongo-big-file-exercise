@@ -1,6 +1,7 @@
 const Records = require('../models/records.model');
 const { processCsvFile } = require('../services/records.service');
 
+// Maneja la carga del archivo CSV, lo procesa y devuelve un resumen del resultado
 const upload = async (req, res) => {
   const { file } = req;
   if (!file) {
@@ -12,7 +13,7 @@ const upload = async (req, res) => {
       message: 'El archivo se procesó correctamente.',
       readCount,
       insertedCount,
-      repeatedCount: readCount - insertedCount,
+      repeatedCount: readCount - insertedCount, // Diferencia entre registros leídos y almacenados
     });
   } catch (error) {
     console.error('Error en el controlador upload:', error);
@@ -20,6 +21,7 @@ const upload = async (req, res) => {
   }
 };
 
+// Devuelve los primeros 10 registros almacenados
 const list = async (_, res) => {
   try {
     const data = await Records
